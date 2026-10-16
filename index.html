@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b14">
+  <meta name="description" content=" Live posture monitoring dashboard by AeroNex, MMMUT Gorakhpur.">
+  <title>  AeroNex × MMMUT</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="university-lockup">
+        <div class="university-mark" aria-hidden="true">MMMUT</div>
+        <div class="university-copy">
+          <span class="micro-label">GORAKHPUR · STUDENT INNOVATION</span>
+          <strong>Madan Mohan Malaviya University of Technology</strong>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="project-lockup">
+          <span>PROJECT BY</span>
+          <strong>AeroNex</strong>
+          <i aria-hidden="true"></i>
+        </div>
+        <div class="club-logo-frame">
+          <img class="club-logo" src="/robotics-club-logo.jpeg" alt="MMMUT Robotics Club crest" width="96" height="64">
+        </div>
+      </div>
+    </header>
+    
+    <nav class="dashboard-nav" aria-label="Dashboard navigation">
+      <a class="wordmark" href="#top" aria-label=" Home">POSTURE</a>
+      <span class="nav-caption">SMART POSTURE MONITOR <b> / </b> ESP8266 + MPU6050</span>
+      <div id="connection" class="connection offline" role="status" aria-live="polite">
+        <span class="conn-dot" aria-hidden="true"></span>
+        <span id="connectionText">Connecting to device</span>
+      </div>
+    </nav>
+
+    <main id="top">
+      <section class="intro">
+        <div class="intro-copy">
+          <div class="eyebrow"><span class="live-pulse"></span> LIVE ERGONOMICS · PROTOTYPE 01</div>
+          <h1>Posture in focus.<br><span>Progress in motion.</span></h1>
+          <p>Live camera preview and sensor feedback work together to help you find a more comfortable sitting position.</p>
+        </div>
+
+        <div class="intro-spec" aria-label="Device details">
+          <div><span>NETWORK</span><strong>PosturePal</strong></div>
+          <div><span>DEVICE PAGE</span><strong>127.0.0.1:8787</strong></div>
+          <div><span>THRESHOLD</span><strong>±15°</strong></div>
+        </div>
+      </section>
+      <section class="dashboard-grid" aria-label="Live posture dashboard">
+        <div class="primary-column">
+          <section class="panel camera-panel" aria-labelledby="cameraTitle">
+            <div class="panel-heading">
+              <div>
+                <div class="eyebrow panel-index"><span>01</span> CAMERA + SENSOR</div>
+                <h2 id="cameraTitle">Your posture, live.</h2>
+                <p>Keep the camera at eye level for a clear sitting view.</p>
+              </div>
+              <span class="local-tag"><i aria-hidden="true"></i> LOCAL PREVIEW</span>
+            </div>
+
+            <div id="cameraStage" class="camera-stage">
+              <video id="cameraVideo" autoplay playsinline muted hidden></video>
+              <div id="cameraPlaceholder" class="camera-placeholder">
+                <div class="camera-target" aria-hidden="true"><span></span><i></i></div>
+                <strong id="cameraPlaceholderTitle">Camera preview is off</strong>
+                <span id="cameraPlaceholderText">Start the laptop companion, then allow camera access in your browser.</span>
+              </div>
+              <div class="camera-overlay camera-overlay-top" aria-hidden="true">
+                <span><i></i> POSTURE VIEW</span>
+                <span>CAM 01 · USER</span>
+              </div>
+              <div id="cameraBadge" class="camera-badge"><i></i><span id="cameraBadgeText">CAMERA OFF</span></div>
+              <div class="camera-hud">
+                <div class="hud-angle"><span>PITCH</span><strong><span id="miniPitch">—</span><small>°</small></strong></div>
+                <div class="hud-divider"></div>
+                <div class="hud-angle"><span>ROLL</span><strong><span id="miniRoll">—</span><small>°</small></strong></div>
+                <span class="hud-source">MPU6050</span>
+              </div>
+            </div>
+
+            <div class="camera-action-row">
+              <button id="cameraButton" class="button button-primary" type="button" onclick="toggleCamera()"><span class="button-symbol" aria-hidden="true">◉</span> Start camera</button>
+              <p id="cameraMessage" class="camera-message">Camera permission is requested only after you start the preview.</p>
+              <span class="privacy-note"><span aria-hidden="true">⌑</span> VIDEO STAYS ON THIS DEVICE</span>
+            </div>
+          </section>
+
+          <section class="reading-section" aria-labelledby="readingTitle">
+            <div class="section-title-row">
+              <div>
+                <div class="eyebrow panel-index"><span>02</span> LIVE SENSOR DATA</div>
+                <h2 id="readingTitle">Tilt readings</h2>
+              </div>
+              <span class="unit-note">CHANGE FROM CALIBRATED POSITION</span>
+            </div>
+
+            <div class="reading-grid">
+              <article class="reading-card">
+                <div class="reading-head"><div><span class="reading-overline">FORWARD / BACK</span><h3>Pitch</h3></div><span class="reading-value"><span id="pitch">—</span><small>°</small></span></div>
+                <div class="track"><div id="pitchBar" class="range-fill" style="left:50%;width:0"></div></div>
+                <div class="ticks"><span>−30°</span><span>−15°</span><span>0°</span><span>+15°</span><span>+30°</span></div>
+              </article>
+              <article class="reading-card">
+                <div class="reading-head"><div><span class="reading-overline">SIDE TO SIDE</span><h3>Roll</h3></div><span class="reading-value"><span id="roll">—</span><small>°</small></span></div>
+                <div class="track"><div id="rollBar" class="range-fill roll-fill" style="left:50%;width:0"></div></div>
+                <div class="ticks"><span>−30°</span><span>−15°</span><span>0°</span><span>+15°</span><span>+30°</span></div>
+              </article>
+            </div>
+            <p class="threshold-note"><span class="threshold-mark" aria-hidden="true"></span> Warning begins when either angle changes by more than <strong>15°</strong>.</p>
+          </section>
+
+          <section class="panel trend-panel" aria-labelledby="trendTitle">
+            <div class="panel-heading compact-heading">
+              <div><div class="eyebrow panel-index"><span>03</span> RECENT ACTIVITY</div><h2 id="trendTitle">Posture trend</h2></div>
+              <div class="legend"><span><i></i> Pitch</span><span class="roll-legend"><i></i> Roll</span></div>
+            </div>
+            <div class="canvas-wrap"><canvas id="trendChart" aria-label="Recent pitch and roll readings and the plus or minus 15 degree warning threshold"></canvas></div>
+            <div class="chart-foot"><span>PREVIOUS 2 MINUTES</span><span>Updates while this page is open</span><span>NOW</span></div>
+          </section>
+        </div>
+
+        <aside class="side-column">
+          <section id="hero" class="panel status-panel neutral" aria-live="polite">
+            <div class="panel-topline"><span class="eyebrow panel-index"><span>04</span> LIVE POSTURE STATUS</span><span class="status-beacon" aria-hidden="true"></span></div>
+            <div class="status-main">
+              <div class="state-orbit" aria-hidden="true"><span id="stateIcon">⌁</span><i></i></div>
+              <div class="state-copy"><span class="reading-overline">CURRENT STATE</span><h2 id="statusText">Connecting…</h2><p id="detail">Waiting for the posture sensor</p></div>
+            </div>
+            <div id="timer" class="timer">
+              <div><span class="timer-label">POSTURE RESPONSE WINDOW</span><span id="timerContext" class="timer-context">READY WHEN NEEDED</span></div>
+              <strong id="countdown">15s</strong>
+            </div>
+
+            <div class="status-sequence" aria-label="Posture status sequence">
+              <div id="stageGood" class="state-step good-step"><span class="step-light"></span><strong>GOOD</strong><small>In range</small></div>
+              <div class="sequence-arrow" aria-hidden="true">→</div>
+              <div id="stageWarning" class="state-step warning-step"><span class="step-light"></span><strong>WARNING</strong><small>15 sec to adjust</small></div>
+              <div class="sequence-arrow" aria-hidden="true">→</div>
+              <div id="stageReminder" class="state-step reminder-step"><span class="step-light"></span><strong>REMINDER</strong><small>Wave to acknowledge</small></div>
+            </div>
+
+            <div class="audio-control">
+              <div class="audio-icon" aria-hidden="true">♫</div>
+              <div class="audio-copy"><strong>Audio alerts</strong><span>One beep at warning · three at reminder</span></div>
+              <button id="soundButton" class="button button-audio" type="button" onclick="enableSound()" aria-pressed="false">Enable</button>
+            </div>
+            <p id="message" class="feedback" aria-live="polite">Enable audio once to hear browser alerts.</p>
+          </section>
+
+          <section class="panel controls-panel" aria-labelledby="controlTitle">
+            <div class="panel-heading compact-heading">
+              <div><div class="eyebrow panel-index"><span>05</span> DEVICE SETUP</div><h2 id="controlTitle">Make it yours.</h2></div>
+            </div>
+            <div id="calibrationState" class="calibration-state"><span class="tiny-dot"></span><span id="calibrationText">Calibration needed</span></div>
+            <div class="action-buttons">
+              <button id="calibrateButton" class="button button-primary button-wide" type="button" onclick="calibrate()"><span class="button-symbol" aria-hidden="true">◎</span> Calibrate normal posture</button>
+              <button id="resetButton" class="button button-secondary button-wide" type="button" onclick="resetCal()"><span class="button-symbol" aria-hidden="true">↺</span> Reset calibration</button>
+            </div>
+            <div class="connection-note"><span class="note-mark" aria-hidden="true">i</span><p>Join <strong>PosturePal</strong> Wi‑Fi on this laptop, then use the companion at <strong>127.0.0.1:8787</strong>. The ESP device page is <strong>192.168.4.1</strong>. When REMINDER appears, wave above the IR sensor to acknowledge it.</p></div>
+          </section>
+
+          <div class="side-footnote"><span class="status-beacon" aria-hidden="true"></span> SENSOR FEEDBACK · CAMERA PREVIEW · YOUR CONTROL</div>
+        </aside>
+      </section>
+
+      <section class="team-section" aria-labelledby="teamTitle">
+        <div class="team-intro">
+          <div class="eyebrow"><span>06</span> THE PEOPLE BEHIND THE BUILD</div>
+          <h2 id="teamTitle">Built by a team.<br><span>Designed for better days.</span></h2>
+          <div class="team-signature"><span>PROJECT</span><strong>AeroNex</strong><span class="signature-line"></span><span>ONE TEAM · ONE VISION</span></div>
+        </div>
+        <div class="team-feature">
+          <div class="team-photo-wrap"><img src="/team.jpeg" alt="AeroNex team portrait featuring the three project members" loading="lazy" decoding="async"></div>
+          <div class="team-photo-caption"><span>AERONEX · MMMUT GORAKHPUR</span><span>MMMUT ROBOTICS CLUB</span></div>
+          <div class="member-grid">
+            <article class="member-card leader-card"><span class="member-role">TEAM LEADER</span><h3>Utkarsh Tiwari</h3><span class="member-index">01 / LEAD</span></article>
+            <article class="member-card"><span class="member-role">TEAM MEMBER</span><h3>Shivansh Tripathi</h3><span class="member-index">02 / BUILD</span></article>
+            <article class="member-card"><span class="member-role">TEAM MEMBER</span><h3>Zaid</h3><span class="member-index">03 / BUILD</span></article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div><a class="wordmark footer-wordmark" href="#top"></a><span>SMART POSTURE MONITOR</span></div>
+      <p>Madan Mohan Malaviya University of Technology · Gorakhpur</p>
+      <span>PROJECT BY <strong>AeroNex</strong></span>
+    </footer>
+  </div>
+  <script src="/script.js" defer></script>
+</body>
+</html>
+

@@ -1,9 +1,9 @@
-# PosturePal laptop dashboard
+# AeroNex laptop dashboard
 
 ## Start the dashboard
 
 1. Download `PosturePal_Laptop_Dashboard_Updated.zip` and **extract the whole ZIP**. Do not run the `.bat` from inside the ZIP, and do not download only the `.bat`; it needs the neighboring files, including `team.jpeg` and `robotics-club-logo.jpeg`.
-2. Connect the laptop to the ESP8266 Wi-Fi network `PosturePal` (password `Posture123`).
+2. Connect the laptop to the ESP8266 Wi-Fi network `AerNex` (password `Posture123`).
 3. Open the extracted folder and double-click `start-dashboard.bat` (or the top-level `START_POSTUREPAL_DASHBOARD.bat` if supplied beside the folder).
 4. Keep the black helper window open. Your browser should open at `http://127.0.0.1:8787/`. If it does not, enter that address manually. Press Ctrl+C in the helper window to stop the server, then close that window.
 5. Click **Enable sound**, calibrate your normal posture, then click **Start camera** and allow camera access when prompted.
